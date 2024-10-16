@@ -5,4 +5,4 @@ export const apiKeys = {
     Messages:'/message/list'
     
 }
-export const apiConfig = "http://localhost:2000";
+export const apiConfig = process.env.REACT_APP_BACKEND_URL;

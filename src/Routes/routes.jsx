@@ -2,14 +2,11 @@ import { createBrowserRouter } from "react-router-dom";
 import Login from "../components/Login"; 
 import SignUp from "../components/SignUp";
 import Chat from "../page/Chat";
-
-import WhatsAppLikeEmojiPicker from "../components/EmojiPicker";
-import AudioRecorder from "../components/AudioRecorder";
 import VideoCall from "../components/VideoCall";
 
 const route = createBrowserRouter([ 
     { 
-        path: '/login', 
+        path: '/', 
         element: <Login/>,  // Use JSX syntax here
     }, 
     { 
