@@ -32,15 +32,7 @@ function PeerProfile({ user }) {
   }, [user]);
   console.log(status,"status");
   
-  const handleLogout = () => {
-    // Dispatch logout action to clear user data from Redux or other state management
-    dispatch(logoutUser(loginUserDetail.id));
-    socketService.disconnect();
-    if (!error) {
-      // If error is null or undefined, it means login was successful
-      navigate("/login"); // Navigate to the desired page (e.g., /dashboard)
-    }
-  };
+  
 const handleClick = () => { 
 
 }
@@ -60,7 +52,6 @@ const handleClick = () => {
         <i
           className="fa fa-ellipsis-v fa-2x pull-right"
           aria-hidden="true"
-          onClick={handleLogout} 
           style={{ cursor: "pointer" }} 
         ></i>
       </div>

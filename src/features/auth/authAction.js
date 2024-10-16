@@ -29,9 +29,9 @@ export const signupFailure = (error) => ({
   payload: error,
 });
 
-export const logOutRequest = (id) => ({
+export const logOutRequest = () => ({
   type: LOGOUT_REQUEST,
-  payload: id
+  payload: null
 })
 
 

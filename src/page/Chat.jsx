@@ -37,7 +37,7 @@ const rMessages = useMessageList();
   useEffect(() => {
     const token = localStorage.getItem("token");
     if (!token || token == undefined) {
-      navigate("/login");
+      // navigate("/login");
     }
   }, []);
 

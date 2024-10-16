@@ -10,3 +10,6 @@ export const useAuthError = () => {
   export const useAuthUser = () => {
     return useSelector((state) => state.auth.user);
   };
+  export const useAuthenticated = () => {
+    return useSelector((state) => state.auth.isAuthenticated);
+  };

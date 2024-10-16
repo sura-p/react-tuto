@@ -602,7 +602,9 @@ body {
     font-size: 1.8em !important;
   }
 }
-
+.toster{
+  height: 10%;
+}
 
 body{
 	margin: 0;

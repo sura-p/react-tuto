@@ -35,8 +35,9 @@ export const signupUser = (credentials) => {
   };
 };
 
-export const logoutUser = (id) => {
+export const logoutUser = () => {
   return async (dispatch) => {
-    dispatch(logOutRequest(id));
+    dispatch(logOutRequest());
+    localStorage.clear()
 }
 }
