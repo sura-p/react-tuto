@@ -17,7 +17,7 @@ root.render(
     <Provider store={store}>
       <PersistGate loading={null} persistor={persistor}>
         <RouterProvider router={route} />
-        <ToastContainer
+        {/* <ToastContainer
         className="toster"
           position="top-right"
           autoClose={5000}
@@ -28,7 +28,7 @@ root.render(
           pauseOnFocusLoss
           // draggable
           pauseOnHover
-        />
+        /> */}
       </PersistGate>
     </Provider>
   </React.StrictMode>
