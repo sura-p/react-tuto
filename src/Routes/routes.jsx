@@ -6,7 +6,7 @@ import VideoCall from "../components/VideoCall";
 
 const route = createBrowserRouter([ 
     { 
-        path: '/login', 
+        path: '/', 
         element: <Login/>,  // Use JSX syntax here
     }, 
     { 
