@@ -1,7 +1,6 @@
 import data from '@emoji-mart/data';
 import Picker from '@emoji-mart/react';
 import React, { useEffect, useState } from 'react';
-import { ReactMic } from 'react-mic';
 import socketService from '../services/socketService';
 import { useAuthUser } from '../hooks/selectors/AuthSelector';
 
@@ -77,16 +76,7 @@ function Reply({peer,onSend}) {
       )}
 
       <div className="col-sm-9 col-xs-9 reply-main">
-        {isMicActive ? (
-          <ReactMic
-            record={isRecording}
-            className="sound-wave"
-            onStop={onStop}
-            strokeColor="black"
-            backgroundColor="#dcf8c6"
-            mimeType="audio/wav"
-          />
-        ) : (
+       
           <textarea
             className="form-control"
             rows="1"
@@ -94,11 +84,7 @@ function Reply({peer,onSend}) {
             value={inputText}
             onChange={(e) => setInputText(e.target.value)}
           />
-        )}
-
-        {recordedBlobURL && (
-          <audio controls src={recordedBlobURL} />
-        )}
+      
       </div>
 
       <div

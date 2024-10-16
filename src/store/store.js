@@ -3,7 +3,7 @@
  import { createStore, applyMiddleware, combineReducers } from "redux";
 import { thunk } from "redux-thunk";
 import authReducer from "../features/auth/authReducer";
- import { composeWithDevTools } from "redux-devtools-extension";
+//  import { composeWithDevTools } from "redux-devtools-extension";
 // const rootReducer = combineReducers({
 //   auth: authReducer
 // });
@@ -40,9 +40,9 @@ const persistedReducer = persistReducer(persistConfig, rootReducer);
 
 const store = createStore(
   persistedReducer,
-  composeWithDevTools(
+  // composeWithDevTools(
     applyMiddleware(thunk)
-  )
+  // )
 );
 
 const persistor = persistStore(store);
