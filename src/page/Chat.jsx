@@ -36,7 +36,7 @@ const Chat = () => {
     console.log(token, "token");
 
     if (!token || token == undefined) {
-      navigate("/login");
+      navigate("/");
     }
   }, [navigate]);
 
