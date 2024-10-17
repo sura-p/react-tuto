@@ -35,6 +35,21 @@ export const signupUser = (credentials) => {
   };
 };
 
+export const updateProfile = (data) => {
+  return async (dispatch) => {
+    try {
+      dispatch({ type: SIGNUP_REQUEST });
+     
+      const response =  await apiPost('ProfileUpdate',data)
+      dispatch(signupSuccess(response.data));
+    } catch (error) {
+      dispatch(signupFailure(error.response.data.message || "Signup failed"));
+    }
+    
+     
+  };
+};
+
 export const logoutUser = () => {
   return async (dispatch) => {
     dispatch(logOutRequest());

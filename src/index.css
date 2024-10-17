@@ -910,6 +910,8 @@ em-emoji-picker{
 /* Close Button */
 .close-button {
   position: absolute;
+  width: 20px;
+  height: 20px;
   top: 2px;
   right: -8px;
   font-size: 14px;
@@ -927,15 +929,26 @@ em-emoji-picker{
   align-items: center;
  
 }
+.profile-avatar {
+  display: flex;
+  flex-direction: column;
+  /* padding: 70px; */
+  align-items: center;
+  width: 100px;
+  height: 100px;
+  border-radius: 50%; /* Circular image */
+}
+
+.profile-header > div {
+  position: relative;
+  display: inline-block;
+  border-radius: 50%;
+  border: 4px solid #25D366; /* WhatsApp green border color */
+  overflow: hidden; /* Ensures the image fits within the border */
+}
 
 /* Profile Avatar */
-.profile-avatar {
-  width: 100px; /* Width of avatar */
-  height: 100px; /* Height of avatar */
-  border-radius: 50%; /* Circular avatar */
-  object-fit: cover; /* Cover the area */
-  margin-bottom: 10px; /* Space below */
-}
+
 
 /* Profile Body */
 .profile-body {

@@ -1,37 +1,32 @@
 // src/reducers/authReducer.js
 
-import { LOGIN_SUCCESS, LOGIN_FAILURE, SIGNUP_SUCCESS, SIGNUP_FAILURE, LOGIN_REQUEST, LOGOUT_REQUEST } from './authTypes';
+import { LOGIN_SUCCESS, LOGIN_FAILURE, SIGNUP_SUCCESS, SIGNUP_FAILURE, LOGIN_REQUEST, LOGOUT_REQUEST, GET_PROFILE_SUCCESS, GET_PROFILE_FAILURE, UPDATE_PROFILE_FAILURE, UPDATE_PROFILE_REQUEST, GET_PROFILE_REQUEST } from './profileTypes';
 
 const initialState = {
-  isAuthenticated: false,
-  user: null,
+  profile: null,
   loading: false,
   error: null,
 };
 
 const authReducer = (state = initialState, action) => {
   switch (action.type) {
-    case LOGIN_REQUEST:
-      console.log(state,"state");
-      
+    case UPDATE_PROFILE_REQUEST:   
       return {
         ...state,
         loading: true,    // Set loading to true when login request starts
         error: null,      // Clear any previous errors
       };
 
-    case LOGIN_SUCCESS:
+    case GET_PROFILE_SUCCESS:
       return {
         ...state,
-        isAuthenticated: true,
         loading: false,
-        user: action.payload,
+        profile: action.payload,
         error: null,
       };
-    case LOGIN_FAILURE:
+    case GET_PROFILE_FAILURE:
       return {
         ...state,
-        isAuthenticated: false,
         loading: false,
         error: action.payload,
       };
@@ -43,19 +38,16 @@ const authReducer = (state = initialState, action) => {
         user: action.payload,
         error: null,
       };
-    case SIGNUP_FAILURE:
+    case UPDATE_PROFILE_FAILURE:
       return {
         ...state,
-        isAuthenticated: false,
         loading: false,
         error: action.payload,
       };
 
-    case LOGOUT_REQUEST:
+    case GET_PROFILE_REQUEST:
       return {...state,
-        isAuthenticated: false,
-        user: null,
-        loading: false,
+        loading: true,
         error: null,
       };
     default:

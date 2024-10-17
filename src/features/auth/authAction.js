@@ -3,7 +3,7 @@
 // export const SIGNUP_SUCCESS = 'SIGNUP_SUCCESS';
 // export const SIGNUP_FAILURE = 'SIGNUP_FAILURE';
 
-import { LOGIN_FAILURE, LOGIN_SUCCESS, LOGOUT_REQUEST, SIGNUP_FAILURE, SIGNUP_SUCCESS } from "./authTypes";
+import { LOGIN_FAILURE, LOGIN_SUCCESS, LOGOUT_REQUEST, SIGNUP_FAILURE, SIGNUP_SUCCESS, UPLOAD_PROFILE } from "./authTypes";
 
 
 
@@ -33,6 +33,11 @@ export const logOutRequest = () => ({
   type: LOGOUT_REQUEST,
   payload: null
 })
+
+export const updateProfile = (data) => ({
+  type: UPLOAD_PROFILE,
+  payload: data,
+});
 
 
 
