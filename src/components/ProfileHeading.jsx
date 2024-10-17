@@ -23,7 +23,7 @@ const ProfileHeading = ({user, onSelectVisible}) => {
     socketService.disconnect();
    
      
-      navigate("/login");
+      navigate("/");
     
   };
   return (<>
