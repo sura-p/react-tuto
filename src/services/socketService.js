@@ -5,7 +5,7 @@ class SocketService {
   socket = null;
 
   connect(token) {
-    this.socket = io("http://localhost:2000", {
+    this.socket = io(process.env.REACT_APP_BACKEND_URL, {
     //   auth: {
     //     token: `Bearer ${token}`,
     //   },
