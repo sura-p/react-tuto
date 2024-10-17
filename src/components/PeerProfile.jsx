@@ -4,6 +4,7 @@ import { Navigate, useNavigate } from "react-router-dom"; // or useNavigate if y
 import { logoutUser } from "../features/auth/authThunk";
 import { useAuthError, useAuthUser } from "../hooks/selectors/AuthSelector";
 import socketService from "../services/socketService";
+import ProfileModal from "./ProfileModal";
 
 function PeerProfile({ user }) {
   const [status, setStatus] = useState();
@@ -11,7 +12,7 @@ function PeerProfile({ user }) {
   const navigate = useNavigate();
   const error = useAuthError();
   const loginUserDetail = useAuthUser();
-
+  const [isModalOpen, setModalOpen] = useState(false);
   useEffect(() => {
     // Connect to socket when component mounts
     const token = "user-auth-token"; // Add your authentication token here
@@ -33,12 +34,13 @@ function PeerProfile({ user }) {
   console.log(status,"status");
   
   
-const handleClick = () => { 
-
-}
+  const openModal = () => setModalOpen(true);
+  const closeModal = () => setModalOpen(false);
   return (
+    <>
+    <ProfileModal isOpen={isModalOpen} onRequestClose={closeModal} user={user} />
     <div className="row heading">
-      <div className="col-sm-2 col-md-1 col-xs-3 heading-avatar">
+      <div className="col-sm-2 col-md-1 col-xs-3 heading-avatar"  onClick={openModal}>
         <div className="heading-avatar-icon">
           <img src={user.image} alt="profile" />
         </div>
@@ -48,14 +50,15 @@ const handleClick = () => {
         <span className="heading-online">{status ?"online": "offline"}</span>
       </div>
       <div className="col-sm-1 col-xs-1 heading-dot pull-right">
-      <i class="fa fa-video-camera fa-2x" aria-hidden="true" onClick={handleClick}></i>
+      <i class="fa fa-video-camera fa-2x" aria-hidden="true"></i>
         <i
           className="fa fa-ellipsis-v fa-2x pull-right"
           aria-hidden="true"
           style={{ cursor: "pointer" }} 
         ></i>
       </div>
-    </div>
+    </div></>
+   
   );
 }
 

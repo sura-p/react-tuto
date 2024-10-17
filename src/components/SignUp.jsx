@@ -35,7 +35,7 @@ const SignUp = () => {
             )}
           </button>
           <p className="login-re">
-            Already have an account? <a href="/login">Login In</a>
+            Already have an account? <a href="/">Login In</a>
           </p>
       </form>
     </div>

@@ -20,6 +20,15 @@ const Login = () => {
   const error = useAuthError();
   const isAuthenticated = useAuthenticated();
   const navigate = useNavigate();
+
+  useEffect(() => {
+    const token = localStorage.getItem("token");
+    if (token) {
+      // Show the notification with the error message
+      navigate("/chat");
+    }
+    
+  }, [error, isAuthenticated, navigate]);
   useEffect(() => {
     // Show notification only when there's an error
     if (error) {

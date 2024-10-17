@@ -877,3 +877,87 @@ em-emoji-picker{
 
 
 
+
+/* profile modal css */
+
+/* Modal Overlay */
+.profile-overlay {
+  background-color: rgba(0, 0, 0, 0.75); /* Dark overlay */
+  position: fixed; /* Fix the overlay to the viewport */
+  top: 0; /* Align to the top */
+  left: 0; /* Align to the left */
+  right: 0; /* Align to the right */
+  bottom: 0; /* Align to the bottom */
+  display: flex; /* Use flexbox to center the modal */
+  justify-content: center; /* Center horizontally */
+  align-items: center; /* Center vertically */
+  z-index: 1000; /* Ensure it's on top */
+}
+
+/* Modal Content */
+.profile-modal-content {
+ 
+  background: white; /* White background for modal */
+  padding: 20px; /* Padding around content */
+  border-radius: 10px; /* Rounded corners */
+  width: 90%; /* Take up 90% of the viewport width */
+  max-width: 500px; /* Limit max width */
+  max-height: 50vh; /* Limit height */
+  overflow-y: auto; /* Scroll if content exceeds height */
+  position: relative; /* Position relative for children */
+}
+
+/* Close Button */
+.close-button {
+  position: absolute;
+  top: 2px;
+  right: -8px;
+  font-size: 14px;
+  background: transparent;
+  color: black;
+  border: none;
+  cursor: pointer;
+}
+
+/* Profile Header */
+.profile-header {
+  display: flex;
+  flex-direction: column;
+  /* padding: 70px; */
+  align-items: center;
+ 
+}
+
+/* Profile Avatar */
+.profile-avatar {
+  width: 100px; /* Width of avatar */
+  height: 100px; /* Height of avatar */
+  border-radius: 50%; /* Circular avatar */
+  object-fit: cover; /* Cover the area */
+  margin-bottom: 10px; /* Space below */
+}
+
+/* Profile Body */
+.profile-body {
+  text-align: center; /* Center text */
+  font-size: 14px; /* Font size */
+  color: #333; /* Text color */
+}
+
+/* Responsive Styles */
+@media (min-width: 768px) {
+  .profile-modal-content {
+    width: 50%; /* For medium to large screens */
+  }
+}
+
+@media (max-width: 480px) {
+  .profile-avatar {
+    width: 80px; /* Smaller avatar on small screens */
+    height: 80px;
+  }
+
+  .profile-body {
+    font-size: 12px; /* Smaller font size */
+  }
+}

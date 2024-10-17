@@ -29,24 +29,26 @@ const Chat = () => {
   const [sendText, setSendText] = useState([]);
   const navigate = useNavigate();
   const user = useAuthUser();
-const rMessages = useMessageList();
-
-
-  console.log(sendText, "user111");
+  const rMessages = useMessageList();
   const dispatch = useDispatch();
   useEffect(() => {
     const token = localStorage.getItem("token");
+    console.log(token, "token");
+
     if (!token || token == undefined) {
-      // navigate("/login");
+      navigate("/login");
     }
-  }, []);
+  }, [navigate]);
 
   useEffect(() => {
+    const token = localStorage.getItem("token");
+    if (!token) return;
     dispatch(connectedUserList(`/search?q=${search}`));
   }, [dispatch, search]);
 
   useEffect(() => {
-    const token = "user-auth-token";
+    const token = localStorage.getItem("token");
+    if (!token || !user) return;
     socketService.connect(token);
 
     socketService.emit("registerUser", {
@@ -68,7 +70,8 @@ const rMessages = useMessageList();
   console.log(selectedUser, "selected");
 
   useEffect(() => {
-    if (!user) return;
+    const token = localStorage.getItem("token");
+    if (!token || !user) return;
 
     socketService.on("receiveMessage", (message) => {
       console.log(message, "message", message.receiver === user.id);
@@ -82,32 +85,34 @@ const rMessages = useMessageList();
     });
   }, [user]);
   useEffect(() => {
+    const token = localStorage.getItem("token");
+    if (!token || !user) return;
     if (selectedUser) {
       dispatch(getMessageList(`?peerId=${selectedUser._id}`));
     }
+  }, [dispatch, selectedUser]);
 
-  }, [dispatch,selectedUser]);
-
-  
-  
   useEffect(() => {
-    if (rMessages && selectedUser) {
-      console.log(rMessages,"rMessages");
-      const fetchedMessages = rMessages.messages.map((msg) => ({
-        msg: msg.message,
-        p:msg.sender === user.id ? "s" : "r", 
-      }));
-      setSendText(fetchedMessages); 
-    }
-  }, [rMessages, selectedUser, user.id]);
-  console.log(connectedUser, "sendText");
+    const token = localStorage.getItem("token");
+    console.log(token,"token");
+    
+    if (!token || !user) return;
+    if (!rMessages || !selectedUser || !user) return; // Add user check
+
+    console.log(rMessages, "rMessages");
+    const fetchedMessages = rMessages.messages.map((msg) => ({
+      msg: msg.message,
+      p: msg.sender === user.id ? "s" : "r"
+    }));
+    setSendText(fetchedMessages);
+  }, [rMessages, selectedUser, user]);
 
   return (
     <div className="container app">
       <div className="row app-one">
         <div className="col-sm-4 side">
           <div className="side-one">
-            <ProfileHeading user={user} onSelectVisible={setIsVisible} />
+           {user&& <ProfileHeading user={user} onSelectVisible={setIsVisible} />}
             {isVisible ? (
               <>
                 <ComposeBox searchTerm={setSearch} />
