@@ -48,7 +48,7 @@ export const apiGetUrl = (key, dynamicUrl, args) => {
 };
 
 export const apiUploadFile = (key, args, config) => {
-  return axios.post(getUrlByKey(key), args, config);
+  return axios.put(getUrlByKey(key), args, config);
 };
 
 export const apiDelete = (key, args) => {

@@ -20,9 +20,11 @@ import storage from 'redux-persist/lib/storage'; // Defaults to localStorage for
 import cUReducer from "../features/connectedUser/cUReducer";
 import socketService from "../services/socketService";
 import { messageReducer } from "../features/messageFeature/messageReducer";
+import profileReducer from "../features/profile/profileReducer";
 const rootReducer = combineReducers({
     auth: authReducer,
     cUList:cUReducer,
+    profile:profileReducer,
     messages:messageReducer
   });
 const persistConfig = {

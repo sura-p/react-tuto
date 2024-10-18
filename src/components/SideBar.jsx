@@ -16,7 +16,7 @@ const Sidebar = ({ user=[], loader=false ,onSelectUser}) => {
             <><div class="row sideBar-body" id={user._id} onClick={() => onSelectUser(user)} key={user._id}>
               <div class="col-sm-3 col-xs-3 sideBar-avatar">
                 <div class="avatar-icon">
-                  <img src={user.image} alt="profile" />
+                  <img src={`${process.env.REACT_APP_BACKEND_URL}/uploads/${user.image}`||"https://dummyjson.com/icon/emilys/128"} alt="profile" />
                 </div>
               </div>
               <div class="col-sm-9 col-xs-9 sideBar-main">

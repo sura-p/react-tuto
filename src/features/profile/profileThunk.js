@@ -1,16 +1,10 @@
 import {
   getProfileFailure,
   getProfileSuccess,
-  loginFailure,
-  loginSuccess,
-  logOutRequest,
-  signupFailure,
-  signupSuccess,
   updateProfileFailure,
   updateProfileSuccess
 } from "./profileAction";
-import { LOGIN_REQUEST, SIGNUP_REQUEST } from "./authTypes";
-import { apiGet, apiPost, apiUploadFile } from "../../services/apiUtils";
+import { apiGet, apiUploadFile } from "../../services/apiUtils";
 import { GET_PROFILE_REQUEST, UPDATE_PROFILE_REQUEST } from "./profileTypes";
 export const getUserProfile = () => {
   return async (dispatch) => {

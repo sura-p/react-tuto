@@ -21,6 +21,8 @@ import PeerProfile from "../components/PeerProfile";
 import SelectPeer from "../components/SelectPeer";
 import { getMessageList } from "../features/messageFeature/messageThunk";
 import { useMessageList } from "../hooks/selectors/MessageSelector";
+import { getUserProfile } from "../features/profile/profileThunk";
+import { useProfileDetail } from "../hooks/selectors/ProfileSelector";
 
 const Chat = () => {
   const [selectedUser, setSelectedUser] = useState();
@@ -31,14 +33,19 @@ const Chat = () => {
   const user = useAuthUser();
   const rMessages = useMessageList();
   const dispatch = useDispatch();
+  const userDetail = useProfileDetail();
   useEffect(() => {
     const token = localStorage.getItem("token");
     console.log(token, "token");
 
-    if (!token || token == undefined) {
-      navigate("/");
+    if (!token || token == null) {
+      navigate("/login");
     }
-  }, [navigate]);
+  },[]);
+
+  useEffect(()=>{
+    dispatch(getUserProfile())
+  },[dispatch])
 
   useEffect(() => {
     const token = localStorage.getItem("token");
@@ -112,7 +119,7 @@ const Chat = () => {
       <div className="row app-one">
         <div className="col-sm-4 side">
           <div className="side-one">
-           {user&& <ProfileHeading user={user} onSelectVisible={setIsVisible} />}
+           {userDetail&& <ProfileHeading user={userDetail.data} onSelectVisible={setIsVisible} />}
             {isVisible ? (
               <>
                 <ComposeBox searchTerm={setSearch} />
@@ -127,7 +134,7 @@ const Chat = () => {
                 {loading ? (
                   <Sidebar loader={loading} />
                 ) : (
-                  <Sidebar
+                  connectedUser&&<Sidebar
                     user={connectedUser.contacts}
                     onSelectUser={setSelectedUser}
                   />
