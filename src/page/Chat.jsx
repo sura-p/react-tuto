@@ -86,7 +86,7 @@ const Chat = () => {
       if (message.receiver === user.id) {
         setSendText((prevMessages) => [
           ...prevMessages,
-          { msg: message.message, p: "r" }
+          { msg: message.message, p: "r",date:message.createdAt }
         ]);
       }
     });
@@ -109,7 +109,8 @@ const Chat = () => {
     console.log(rMessages, "rMessages");
     const fetchedMessages = rMessages.messages.map((msg) => ({
       msg: msg.message,
-      p: msg.sender === user.id ? "s" : "r"
+      p: msg.sender === user.id ? "s" : "r",
+      date:msg.createdAt
     }));
     setSendText(fetchedMessages);
   }, [rMessages, selectedUser, user]);
@@ -124,7 +125,7 @@ const Chat = () => {
               <>
                 <ComposeBox searchTerm={setSearch} />
                 <ComposeSideBar
-                  user={connectedUser.users}
+                  user={connectedUser.contacts}
                   onSelectUser={setSelectedUser}
                 />
               </>

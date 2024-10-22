@@ -3,6 +3,8 @@ import { useDispatch } from 'react-redux';
 import { getMessageList } from '../features/messageFeature/messageThunk';
 const Message = ({ messageSend }) => {
   const messageEndRef = useRef(null); 
+  console.log(messageSend,"message");
+  
 
 
   const scrollToBottom = () => {
@@ -22,7 +24,7 @@ const Message = ({ messageSend }) => {
             {ele.msg.trim()}
           </div>
           <span class="message-time pull-right">
-            {new Date().toISOString()}
+            {new Date(ele.date).toLocaleDateString()}
           </span>
         </div>
       </div>):(<div class="col-sm-12 message-main-receiver">
@@ -31,7 +33,7 @@ const Message = ({ messageSend }) => {
                 {ele.msg.trim()}
                 </div>
                 <span class="message-time pull-right">
-                  Sun
+                {new Date(ele.date).toLocaleDateString()}
                 </span>
                 
               </div>

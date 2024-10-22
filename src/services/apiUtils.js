@@ -73,13 +73,22 @@ axios.interceptors.request.use(
   }
 );
 
+let redirectTimeout;
 axios.interceptors.response.use(
   function (response) {
     return response;
   },
   function (error) {
-    console.log(error);
+    if (error.response && error.response.status === 401) {
+      localStorage.removeItem("token");
 
+      if (!redirectTimeout) {
+        redirectTimeout = setTimeout(() => {
+          window.location.href = "/login";
+        }, 300);  // Add a small delay before redirecting to prevent multiple redirects
+      }
+    }
     return Promise.reject(error);
   }
 );
+

@@ -48,7 +48,7 @@ function Reply({peer,onSend}) {
 
   const handleSend = () => {
     if (inputText && receiverId) {
-      onSend({msg:inputText,p:'s'});
+      onSend({msg:inputText,p:'s',date:new Date().toLocaleDateString()});
       setInputText("");
       socketVar.emit("sendMessage", {
         senderId: user.id,

@@ -11,13 +11,13 @@ function ComposeSideBar({user,onSelectUser,loader=false}) {
         <><div class="row sideBar-body" id={user.id} onClick={() => onSelectUser(user)}>
           <div class="col-sm-3 col-xs-3 sideBar-avatar">
             <div class="avatar-icon">
-              <img src={user.image} alt="profile" />
+            <img src={`${process.env.REACT_APP_BACKEND_URL}/uploads/${user.image}`||"https://dummyjson.com/icon/emilys/128"} alt="profile" />
             </div>
           </div>
           <div class="col-sm-9 col-xs-9 sideBar-main">
             <div class="row">
               <div class="col-sm-8 col-xs-8 sideBar-name">
-                <span class="name-meta">{user.firstName}</span>
+                <span class="name-meta">{user.username}</span>
               </div>
               <div class="col-sm-4 col-xs-4 pull-right sideBar-time">
                 <span class="time-meta pull-right">18:18111</span>

@@ -908,7 +908,7 @@ em-emoji-picker{
   width: 90%; /* Take up 90% of the viewport width */
   max-width: 500px; /* Limit max width */
   max-height: 50vh; /* Limit height */
-  overflow-y: auto; /* Scroll if content exceeds height */
+  overflow-y:scroll;
   position: relative; /* Position relative for children */
 }
 
@@ -1024,14 +1024,14 @@ em-emoji-picker{
   margin: 0;
 }
 
-.close-button {
+/* .close-button {
   background: none;
   margin: 17px;
   border: none;
   color: white;
   font-size: 1.5rem;
   cursor: pointer;
-}
+} */
 
 .modal-body {
   display: flex;
