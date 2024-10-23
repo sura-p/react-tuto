@@ -36,6 +36,7 @@ const Chat = () => {
   const rMessages = useMessageList();
   const dispatch = useDispatch();
   const userDetail = useProfileDetail();
+  const [selectedFile, setSelectedFile] = useState(null); 
   useEffect(() => {
     const token = localStorage.getItem("token");
     console.log(token, "token");
@@ -164,12 +165,12 @@ const Chat = () => {
         <div className="col-sm-8 conversation">
           {selectedUser ? (
             <>
-              <PeerProfile user={selectedUser} />
+              <PeerProfile user={selectedUser} fileSelected={setSelectedFile} />
               <div className="row message" id="conversation">
                 <Message messageSend={sendText} />
               </div>
 
-              <Reply peer={selectedUser} onSend={handleSend} />
+              <Reply peer={selectedUser} onSend={handleSend} selectedFile={selectedFile} setSelectedFile={setSelectedFile}/>
             </>
           ) : (
             <SelectPeer />

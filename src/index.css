@@ -410,8 +410,21 @@ body {
   z-index: 1000;
 }
 
+.reply-2 {
+  height: 150px;
+  width: 100%;
+  position: absolute;
+  bottom: 0px;
+  background-color: #f5f1ee;
+  padding: 10px 5px 10px 5px !important;
+  margin: 0 !important;
+  z-index: 1000;
+}
+
 .reply-emojis {
   padding: 5px !important;
+  display: flex !important;
+  align-items: center !important;
 }
 
 .reply-emojis i {
@@ -423,6 +436,8 @@ body {
 
 .reply-recording {
   padding: 5px !important;
+  display: flex;
+  align-items: center;
 }
 
 .reply-recording i {
@@ -434,6 +449,8 @@ body {
 
 .reply-send {
   padding: 5px !important;
+  display: flex;
+  align-items: center;
 }
 
 .reply-send i {
@@ -1150,5 +1167,45 @@ p {
 
 .fa-check{
   color: #009688;
+}
+
+.file-preview {
+  position: relative;
+  max-width: 150px;
+  max-height: 150px;
+  margin-right: 10px;
+  border: 1px solid #ccc;
+  border-radius: 8px;
+  overflow: hidden;
+}
+
+.image-preview,
+.video-preview {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.remove-btn {
+  position: absolute;
+  width: 20px;
+  height: 20px;
+  top: 5px;
+  right: 5px;
+  background: rgba(0, 0, 0, 0.5);
+  border: none;
+  color: white;
+  cursor: pointer;
+  border-radius: 50%;
+  padding: 3px 0px 0px 4px;
+}
+
+.message-input-container {
+  display: flex;
+  align-items: center;
+  position: relative;
+  background: #f1f1f1;
+  padding: 10px;
+  border-radius: 8px;
 }
 
