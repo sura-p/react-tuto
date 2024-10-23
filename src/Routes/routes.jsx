@@ -3,9 +3,16 @@ import Login from "../components/Login";
 import SignUp from "../components/SignUp";
 import Chat from "../page/Chat";
 import VideoCall from "../components/VideoCall";
+import Home from "../components/Home";
 
 const route = createBrowserRouter([ 
-    { 
+    {
+        path:'/',
+        element:<Home/>,
+    },
+    {   
+       
+
         path: '/login', 
         element: <Login/>,  // Use JSX syntax here
     }, 
