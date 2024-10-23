@@ -1122,3 +1122,33 @@ p {
 .get-started-btn:hover {
   background-color: #0056b3; /* Darker blue on hover */
 }
+.fa-plus:hover{
+ color: #009688;
+}
+
+.spinner-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh; /* Full viewport height */
+}
+
+.spinner {
+  font-size: 20px; /* Size of the spinner */
+  color: #009688; /* Customize the color */
+  animation: spin 1s linear infinite; /* Spin animation */
+}
+
+@keyframes spin {
+  0% {
+    transform: rotate(0deg);
+  }
+  100% {
+    transform: rotate(360deg);
+  }
+}
+
+.fa-check{
+  color: #009688;
+}
+

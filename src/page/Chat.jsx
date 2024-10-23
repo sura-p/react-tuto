@@ -23,10 +23,12 @@ import { getMessageList } from "../features/messageFeature/messageThunk";
 import { useMessageList } from "../hooks/selectors/MessageSelector";
 import { getUserProfile } from "../features/profile/profileThunk";
 import { useProfileDetail } from "../hooks/selectors/ProfileSelector";
+import { apiGet } from "../services/apiUtils";
 
 const Chat = () => {
   const [selectedUser, setSelectedUser] = useState();
   const [search, setSearch] = useState("");
+  const [searchPeer, setSearchPeer] = useState([]);
   const [isVisible, setIsVisible] = useState(false);
   const [sendText, setSendText] = useState([]);
   const navigate = useNavigate();
@@ -52,6 +54,21 @@ const Chat = () => {
     if (!token) return;
     dispatch(connectedUserList(`/search?q=${search}`));
   }, [dispatch, search]);
+
+  useEffect(() => {
+   
+      const searchUsers = async () => {
+        try {
+          const response = await apiGet("Search",`?search=${search}`);
+          setSearchPeer(response.data);
+        } catch (error) {
+          console.error('Error fetching search results:', error);
+        }
+      };
+      searchUsers()
+    
+  }, [search]);
+
 
   useEffect(() => {
     const token = localStorage.getItem("token");
@@ -124,10 +141,10 @@ const Chat = () => {
             {isVisible ? (
               <>
                 <ComposeBox searchTerm={setSearch} />
-                <ComposeSideBar
-                  user={connectedUser.contacts}
+                {search&&<ComposeSideBar
+                  user={searchPeer}
                   onSelectUser={setSelectedUser}
-                />
+                />}
               </>
             ) : (
               <>
