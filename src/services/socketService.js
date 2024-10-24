@@ -6,9 +6,9 @@ class SocketService {
 
   connect(token) {
     this.socket = io(process.env.REACT_APP_BACKEND_URL, {
-    //   auth: {
-    //     token: `Bearer ${token}`,
-    //   },
+      transports: ['websocket'],
+      upgrade: false,
+      maxHttpBufferSize: 1e7
     });
 
     this.socket.on("connect", () => {

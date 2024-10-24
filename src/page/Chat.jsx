@@ -36,7 +36,7 @@ const Chat = () => {
   const rMessages = useMessageList();
   const dispatch = useDispatch();
   const userDetail = useProfileDetail();
-  const [selectedFile, setSelectedFile] = useState(null); 
+  const [selectedFile, setSelectedFile] = useState(null);
   useEffect(() => {
     const token = localStorage.getItem("token");
     console.log(token, "token");
@@ -44,11 +44,11 @@ const Chat = () => {
     if (!token || token == null) {
       navigate("/login");
     }
-  },[]);
+  }, []);
 
-  useEffect(()=>{
-    dispatch(getUserProfile())
-  },[dispatch])
+  useEffect(() => {
+    dispatch(getUserProfile());
+  }, [dispatch]);
 
   useEffect(() => {
     const token = localStorage.getItem("token");
@@ -57,19 +57,16 @@ const Chat = () => {
   }, [dispatch, search]);
 
   useEffect(() => {
-   
-      const searchUsers = async () => {
-        try {
-          const response = await apiGet("Search",`?search=${search}`);
-          setSearchPeer(response.data);
-        } catch (error) {
-          console.error('Error fetching search results:', error);
-        }
-      };
-      searchUsers()
-    
+    const searchUsers = async () => {
+      try {
+        const response = await apiGet("Search", `?search=${search}`);
+        setSearchPeer(response.data);
+      } catch (error) {
+        console.error("Error fetching search results:", error);
+      }
+    };
+    searchUsers();
   }, [search]);
-
 
   useEffect(() => {
     const token = localStorage.getItem("token");
@@ -104,7 +101,17 @@ const Chat = () => {
       if (message.receiver === user.id) {
         setSendText((prevMessages) => [
           ...prevMessages,
-          { msg: message.message, p: "r",date:message.createdAt }
+          {
+            msg: message.message,
+            p: "r",
+            date: message.createdAt,
+            ...(message.image && message.image.trim() !== ""
+              ? { image: message.image }
+              : {}),
+            ...(message.video && message.video.trim() !== ""
+              ? { video: message.video }
+              : {})
+          }
         ]);
       }
     });
@@ -119,8 +126,8 @@ const Chat = () => {
 
   useEffect(() => {
     const token = localStorage.getItem("token");
-    console.log(token,"token");
-    
+    console.log(token, "token");
+
     if (!token || !user) return;
     if (!rMessages || !selectedUser || !user) return; // Add user check
 
@@ -128,7 +135,9 @@ const Chat = () => {
     const fetchedMessages = rMessages.messages.map((msg) => ({
       msg: msg.message,
       p: msg.sender === user.id ? "s" : "r",
-      date:msg.createdAt
+      date: msg.createdAt,
+      ...(msg.image && msg.image.trim() !== "" ? { image: msg.image } : {}),
+      ...(msg.video && msg.video.trim() !== "" ? { video: msg.video } : {})
     }));
     setSendText(fetchedMessages);
   }, [rMessages, selectedUser, user]);
@@ -138,14 +147,21 @@ const Chat = () => {
       <div className="row app-one">
         <div className="col-sm-4 side">
           <div className="side-one">
-           {userDetail&& <ProfileHeading user={userDetail.data} onSelectVisible={setIsVisible} />}
+            {userDetail && (
+              <ProfileHeading
+                user={userDetail.data}
+                onSelectVisible={setIsVisible}
+              />
+            )}
             {isVisible ? (
               <>
                 <ComposeBox searchTerm={setSearch} />
-                {search&&<ComposeSideBar
-                  user={searchPeer}
-                  onSelectUser={setSelectedUser}
-                />}
+                {search && (
+                  <ComposeSideBar
+                    user={searchPeer}
+                    onSelectUser={setSelectedUser}
+                  />
+                )}
               </>
             ) : (
               <>
@@ -153,10 +169,12 @@ const Chat = () => {
                 {loading ? (
                   <Sidebar loader={loading} />
                 ) : (
-                  connectedUser&&<Sidebar
-                    user={connectedUser.contacts}
-                    onSelectUser={setSelectedUser}
-                  />
+                  connectedUser && (
+                    <Sidebar
+                      user={connectedUser.contacts}
+                      onSelectUser={setSelectedUser}
+                    />
+                  )
                 )}
               </>
             )}
@@ -170,7 +188,12 @@ const Chat = () => {
                 <Message messageSend={sendText} />
               </div>
 
-              <Reply peer={selectedUser} onSend={handleSend} selectedFile={selectedFile} setSelectedFile={setSelectedFile}/>
+              <Reply
+                peer={selectedUser}
+                onSend={handleSend}
+                selectedFile={selectedFile}
+                setSelectedFile={setSelectedFile}
+              />
             </>
           ) : (
             <SelectPeer />

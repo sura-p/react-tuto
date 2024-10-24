@@ -4,7 +4,7 @@ import React, { useEffect, useState } from "react";
 import socketService from "../services/socketService";
 import { useAuthUser } from "../hooks/selectors/AuthSelector";
 
-function Reply({ peer, onSend, selectedFile  ,setSelectedFile}) {
+function Reply({ peer, onSend, selectedFile, setSelectedFile }) {
   console.log(peer == undefined, peer, "peer");
 
   const [visible, setVisible] = useState(false);
@@ -44,28 +44,62 @@ function Reply({ peer, onSend, selectedFile  ,setSelectedFile}) {
     setVisible(!visible);
   };
 
-  const handleSend = () => {
+  const handleSend = async () => {
     if ((inputText && receiverId) || (selectedFile && receiverId)) {
       onSend({
         msg: inputText,
         p: "s",
-        date: new Date().toLocaleDateString(),
+        date: new Date().toISOString(),
         fileUrl: selectedFile,
-        fileType: "image/jpeg"
+        fileType: selectedFile && selectedFile.type ? selectedFile.type : null
       });
       setInputText("");
-    
-      socketVar.emit("sendMessage", {
-        senderId: user.id,
-        receiverId,
-        message: inputText,
-        fileUrl: selectedFile
-      });
-      setSelectedFile(null)
+
+      if (selectedFile && selectedFile.type.startsWith("image/")) {
+        console.log("eventEmitted", selectedFile);
+
+        socketVar.emit("sendMessage", {
+          senderId: user.id,
+          receiverId,
+          message: inputText,
+          fileUrl: await fileToBuffer(selectedFile),
+          fileName: selectedFile.name,
+          fileType: selectedFile.type
+        });
+      } else if (selectedFile && selectedFile.type.startsWith("video/")) {
+        socketVar.emit("sendMessage", {
+          senderId: user.id,
+          receiverId,
+          message: inputText,
+          fileUrl: await fileToBuffer(selectedFile),
+          fileName: selectedFile.name,
+          fileType: selectedFile.type
+        });
+      } else {
+        // Send just a text message if no file is selected
+        socketVar.emit("sendMessage", {
+          senderId: user.id,
+          receiverId,
+          message: inputText
+        });
+      }
+
+      console.log("eventEmitted");
+
+      setSelectedFile(null);
     }
   };
   const removeFile = () => {
-    setSelectedFile(null)
+    setSelectedFile(null);
+  };
+
+  const fileToBuffer = (file) => {
+    return new Promise((resolve, reject) => {
+      const reader = new FileReader();
+      reader.onloadend = () => resolve(reader.result);
+      reader.onerror = reject;
+      reader.readAsArrayBuffer(file); // Read file as ArrayBuffer (which is a buffer)
+    });
   };
 
   return (
@@ -102,7 +136,11 @@ function Reply({ peer, onSend, selectedFile  ,setSelectedFile}) {
               alt="Selected"
               className="image-preview"
             />
-            <i class="fa fa-times remove-btn" aria-hidden="true" onClick={removeFile}></i>
+            <i
+              class="fa fa-times remove-btn"
+              aria-hidden="true"
+              onClick={removeFile}
+            ></i>
           </div>
         )}
         {selectedFile && selectedFile.type.startsWith("video/") && (
@@ -112,7 +150,11 @@ function Reply({ peer, onSend, selectedFile  ,setSelectedFile}) {
               controls
               className="video-preview"
             />
-            <i class="fa fa-times remove-btn" aria-hidden="true" onClick={removeFile}></i>
+            <i
+              class="fa fa-times remove-btn"
+              aria-hidden="true"
+              onClick={removeFile}
+            ></i>
           </div>
         )}
       </div>

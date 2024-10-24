@@ -1208,4 +1208,9 @@ p {
   padding: 10px;
   border-radius: 8px;
 }
+.file-container{
+  width: 150px;
+  height: 150px;
+}
+
 
