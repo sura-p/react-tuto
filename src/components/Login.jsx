@@ -27,16 +27,16 @@ const Login = () => {
       navigate("/chat");
     }
   }, [error, isAuthenticated, navigate]);
-  // useEffect(() => {
-  //   // Show notification only when there's an error
-  //   if (error) {
-  //     // Show the notification with the error message
-  //     toast.error("failed");
-  //   }
-  //   if (isAuthenticated) {
-  //     navigate("/chat");
-  //   }
-  // }, [error, isAuthenticated, navigate]);
+  useEffect(() => {
+    // Show notification only when there's an error
+    if (error) {
+      // Show the notification with the error message
+      toast.error("failed");
+    }
+    if (isAuthenticated) {
+      navigate("/chat");
+    }
+  }, [error, isAuthenticated, navigate]);
 
   const handleSubmit = async (e) => {
     e.preventDefault();

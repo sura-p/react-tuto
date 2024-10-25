@@ -58,6 +58,26 @@ const Message = ({ messageSend }) => {
                  
                 </div>
               )}
+              {
+                ele.audio&&(
+                
+                  <audio controls>
+                    <source src={ele.audio} type={ele.fileType} />
+                    Your browser does not support the audio tag.
+                  </audio>
+               
+              )
+              }
+               {
+                ele.audioURL&&(
+                
+                  <audio controls>
+                    <source src={`${process.env.REACT_APP_BACKEND_URL}/sharedMedia/${ele.audioURL}`} type={ele.fileType} />
+                    Your browser does not support the audio tag.
+                  </audio>
+               
+              )
+              }
                { ele.image &&(<div className="file-container"> 
                     <img
                       src={`${process.env.REACT_APP_BACKEND_URL}/sharedMedia/${ele.image}`}

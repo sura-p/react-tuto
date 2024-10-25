@@ -9,12 +9,14 @@ function Reply({ peer, onSend, selectedFile, setSelectedFile }) {
 
   const [visible, setVisible] = useState(false);
   const [inputText, setInputText] = useState("");
-  const [isRecording, setIsRecording] = useState(false);
-  const [recordedBlobURL, setRecordedBlobURL] = useState("");
+
   const [file, setFile] = useState();
-  const [isMicActive, setIsMicActive] = useState(false);
+
   const [receiverId, setReceiver] = useState(peer._id);
   const [socketVar, setSocketVar] = useState();
+  const [isRecording, setIsRecording] = useState(false);
+  const [mediaRecorder, setMediaRecorder] = useState(null);
+  const [audioURL, setAudioURL] = useState(null);
   const user = useAuthUser();
   let timeoutId = null; // Variable to hold the timeout ID
 
@@ -22,18 +24,35 @@ function Reply({ peer, onSend, selectedFile, setSelectedFile }) {
     setSocketVar(socketService.connect());
   }, []);
 
+  useEffect(() => {
+    navigator.mediaDevices.getUserMedia({ audio: true }).then((stream) => {
+      const recorder = new MediaRecorder(stream);
+      setMediaRecorder(recorder);
+    });
+  }, []);
+
   const startRecording = () => {
-    setIsMicActive(true);
+    if (mediaRecorder) {
+      setIsRecording(true);
+      mediaRecorder.start();
+
+      setAudioURL(null);
+
+      mediaRecorder.ondataavailable = (event) => {
+        if (event.data.size > 0) {
+          const audioBlob = new Blob([event.data], { type: "audio/webm" });
+          const url = URL.createObjectURL(audioBlob);
+          setAudioURL(audioBlob); // Set the audio URL for preview
+        }
+      };
+    }
   };
 
   const stopRecording = () => {
-    setIsRecording(false);
-    setIsMicActive(false);
-  };
-
-  const onStop = (recordedBlob) => {
-    const blobURL = URL.createObjectURL(recordedBlob.blob);
-    setRecordedBlobURL(blobURL);
+    if (mediaRecorder) {
+      setIsRecording(false);
+      mediaRecorder.stop();
+    }
   };
 
   const addEmoji = (emoji) => {
@@ -45,13 +64,16 @@ function Reply({ peer, onSend, selectedFile, setSelectedFile }) {
   };
 
   const handleSend = async () => {
-    if ((inputText && receiverId) || (selectedFile && receiverId)) {
+     console.log(audioURL,"audio");
+    
+    if ((inputText && receiverId) || (selectedFile && receiverId)||(audioURL && receiverId)) {
       onSend({
         msg: inputText,
         p: "s",
         date: new Date().toISOString(),
         fileUrl: selectedFile,
-        fileType: selectedFile && selectedFile.type ? selectedFile.type : null
+        fileType: selectedFile && selectedFile.type ? selectedFile.type : null,
+        audio: audioURL?URL.createObjectURL(audioURL):null
       });
       setInputText("");
 
@@ -75,6 +97,17 @@ function Reply({ peer, onSend, selectedFile, setSelectedFile }) {
           fileName: selectedFile.name,
           fileType: selectedFile.type
         });
+      } else if (audioURL) {
+        console.log("audio",audioURL);
+        
+        socketVar.emit("sendMessage", {
+          senderId: user.id,
+          receiverId,
+          message: inputText,
+          audio: audioURL,
+          fileType:audioURL.type
+        });
+        setAudioURL(null)
       } else {
         // Send just a text message if no file is selected
         socketVar.emit("sendMessage", {
@@ -120,42 +153,52 @@ function Reply({ peer, onSend, selectedFile, setSelectedFile }) {
       )}
 
       <div className="col-sm-9 col-xs-9 reply-main">
-        {!selectedFile && (
-          <textarea
-            className="form-control"
-            rows="1"
-            id="comment"
-            value={inputText}
-            onChange={(e) => setInputText(e.target.value)}
-          />
-        )}
-        {selectedFile && selectedFile.type.startsWith("image/") && (
-          <div className="file-preview">
-            <img
-              src={URL.createObjectURL(selectedFile)}
-              alt="Selected"
-              className="image-preview"
-            />
-            <i
-              class="fa fa-times remove-btn"
-              aria-hidden="true"
-              onClick={removeFile}
-            ></i>
-          </div>
-        )}
-        {selectedFile && selectedFile.type.startsWith("video/") && (
-          <div className="file-preview">
-            <video
-              src={URL.createObjectURL(selectedFile)}
-              controls
-              className="video-preview"
-            />
-            <i
-              class="fa fa-times remove-btn"
-              aria-hidden="true"
-              onClick={removeFile}
-            ></i>
-          </div>
+        {isRecording ? (
+          <div className="recording-indicator"></div>
+        ) : audioURL ? (
+          <audio controls src={URL.createObjectURL(audioURL)}>
+            Your browser does not support the audio element.
+          </audio>
+        ) : (
+          <>
+            {!selectedFile && (
+              <textarea
+                className="form-control"
+                rows="1"
+                id="comment"
+                value={inputText}
+                onChange={(e) => setInputText(e.target.value)}
+              />
+            )}
+            {selectedFile && selectedFile.type.startsWith("image/") && (
+              <div className="file-preview">
+                <img
+                  src={URL.createObjectURL(selectedFile)}
+                  alt="Selected"
+                  className="image-preview"
+                />
+                <i
+                  class="fa fa-times remove-btn"
+                  aria-hidden="true"
+                  onClick={removeFile}
+                ></i>
+              </div>
+            )}
+            {selectedFile && selectedFile.type.startsWith("video/") && (
+              <div className="file-preview">
+                <video
+                  src={URL.createObjectURL(selectedFile)}
+                  controls
+                  className="video-preview"
+                />
+                <i
+                  class="fa fa-times remove-btn"
+                  aria-hidden="true"
+                  onClick={removeFile}
+                ></i>
+              </div>
+            )}
+          </>
         )}
       </div>
 
@@ -163,8 +206,6 @@ function Reply({ peer, onSend, selectedFile, setSelectedFile }) {
         className="col-sm-1 col-xs-1 reply-recording"
         onMouseDown={startRecording}
         onMouseUp={stopRecording}
-        onTouchStart={startRecording}
-        onTouchEnd={stopRecording}
       >
         <i className="fa fa-microphone fa-2x" aria-hidden="true"></i>
       </div>

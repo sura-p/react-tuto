@@ -86,7 +86,14 @@ const Chat = () => {
   const connectedUser = useCuUser();
   const error = useCuError();
 
+/**
+ * Handles sending a new message by adding it to the current list of messages.
+ *
+ * @param {Object} newMessage - The message object to be sent and added to the message list.
+ */
   const handleSend = (newMessage) => {
+    console.log(newMessage,"newMessage");
+    
     setSendText((prevMessages) => [...prevMessages, newMessage]);
   };
   console.log(selectedUser, "selected");
@@ -110,7 +117,9 @@ const Chat = () => {
               : {}),
             ...(message.video && message.video.trim() !== ""
               ? { video: message.video }
-              : {})
+              : {}),
+            ...(message.audioURL && message.audioURL.trim() !== ""? { video: message.video }
+            : {})
           }
         ]);
       }
@@ -137,7 +146,8 @@ const Chat = () => {
       p: msg.sender === user.id ? "s" : "r",
       date: msg.createdAt,
       ...(msg.image && msg.image.trim() !== "" ? { image: msg.image } : {}),
-      ...(msg.video && msg.video.trim() !== "" ? { video: msg.video } : {})
+      ...(msg.video && msg.video.trim() !== "" ? { video: msg.video } : {}),
+      ...(msg.audioURL && msg.audioURL.trim() !== "" ? { audioURL: msg.audioURL } : {})
     }));
     setSendText(fetchedMessages);
   }, [rMessages, selectedUser, user]);

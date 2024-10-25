@@ -1214,3 +1214,34 @@ p {
 }
 
 
+/* code for audio model */
+
+.recording-indicator {
+  width: 20px;
+  height: 20px;
+  background-color: red;
+  border-radius: 50%;
+  animation: pulse 1s infinite;
+  margin: 10px auto;
+}
+
+@keyframes pulse {
+  0% {
+    transform: scale(1);
+    opacity: 1;
+  }
+  50% {
+    transform: scale(1.5);
+    opacity: 0.7;
+  }
+  100% {
+    transform: scale(1);
+    opacity: 1;
+  }
+}
+audio {
+  width: 150px;
+}
+
+
+
