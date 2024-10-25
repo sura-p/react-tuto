@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { loginUser, signupUser } from "../features/auth/authThunk";
 import { useNavigate } from "react-router-dom";
@@ -19,6 +19,13 @@ const SignUp = () => {
       navigate('/chat')
     }
   };
+
+  // useEffect(() => {
+  //   if (!loading && !error) {
+  //     navigate('/chat');
+  //   }
+  // }, [loading, error, navigate]);
+
   return (
     <div className="container-login">
     <div className="main">
@@ -35,7 +42,7 @@ const SignUp = () => {
             )}
           </button>
           <p className="login-re">
-            Already have an account? <a href="/">Login In</a>
+            Already have an account? <a href="/#/login">Login In</a>
           </p>
       </form>
     </div>

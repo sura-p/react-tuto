@@ -71,7 +71,7 @@ const Login = () => {
               {loading ? <div className="loader" /> : "Login"}
             </button>
             <p className="login-re">
-              Don't have an account? <a href="/sign-up">Sign up</a>
+              Don't have an account? <a href="/#/signup">Sign up</a>
             </p>
           </form>
         </div>
