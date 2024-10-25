@@ -29,6 +29,11 @@ function Reply({ peer, onSend, selectedFile, setSelectedFile }) {
       const recorder = new MediaRecorder(stream);
       setMediaRecorder(recorder);
     });
+    return () => {
+      if (mediaRecorder) {
+        mediaRecorder.stop();
+      }
+    }
   }, []);
 
   const startRecording = () => {
