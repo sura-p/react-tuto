@@ -118,7 +118,7 @@ const Chat = () => {
             ...(message.video && message.video.trim() !== ""
               ? { video: message.video }
               : {}),
-            ...(message.audioURL && message.audioURL.trim() !== ""? { video: message.video }
+            ...(message.audioURL && message.audioURL.trim() !== ""? { audioURL: message.audioURL }
             : {})
           }
         ]);
