@@ -1,6 +1,17 @@
 {
   "name": "Connectify",
   "version": "0.1.0",
+  "main": "src/main.js",
+  "license": "MIT",
+  "build": {
+    "appId": "com.yourapp.id",
+    "files": [
+      "build/**/*",
+      "src/**/*"
+    ],
+    "extraResources": []
+  },
+  "description": "A brief description of your app",
   "private": true,
   "dependencies": {
     "@emoji-mart/data": "^1.2.1",
@@ -10,6 +21,7 @@
     "@testing-library/react": "^13.4.0",
     "@testing-library/user-event": "^13.5.0",
     "axios": "^1.7.7",
+    "electron-squirrel-startup": "^1.0.1",
     "emoji-mart": "^5.6.0",
     "emoji-picker-react": "^4.12.0",
     "framer-motion": "^11.11.9",
@@ -31,10 +43,13 @@
   },
   "scripts": {
     "start": "react-scripts start",
+    "desktop:start": "electron-forge start",
     "build": "react-scripts build",
     "test": "react-scripts test",
     "eject": "react-scripts eject",
-    "electron": "electron ."
+    "electron": "electron-forge start -- --allow-file-access-from-files",
+    "package": "electron-forge package",
+    "make": "electron-forge make"
   },
   "eslintConfig": {
     "extends": [
@@ -53,5 +68,43 @@
       "last 1 firefox version",
       "last 1 safari version"
     ]
+  },
+  "config": {
+    "forge": {
+      "packagerConfig": {},
+      "makers": [
+        {
+          "name": "@electron-forge/maker-squirrel",
+          "config": {
+            "name": "electron_quick_start"
+          }
+        },
+        {
+          "name": "@electron-forge/maker-zip",
+          "platforms": [
+            "darwin"
+          ]
+        },
+        {
+          "name": "@electron-forge/maker-deb",
+          "config": {}
+        },
+        {
+          "name": "@electron-forge/maker-rpm",
+          "config": {}
+        }
+      ]
+    }
+  },
+  "devDependencies": {
+    "@electron-forge/cli": "^7.5.0",
+    "@electron-forge/maker-deb": "^7.5.0",
+    "@electron-forge/maker-rpm": "^7.5.0",
+    "@electron-forge/maker-squirrel": "^7.5.0",
+    "@electron-forge/maker-zip": "^7.5.0",
+    "@electron-forge/plugin-auto-unpack-natives": "^7.5.0",
+    "@electron-forge/plugin-fuses": "^7.5.0",
+    "@electron/fuses": "^1.8.0",
+    "electron": "^33.0.2"
   }
 }
